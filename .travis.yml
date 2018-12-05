@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t azraeht/react-test -f /client/Dockerfile.dev ./client
+
+script:
+  - docker run azraeht/react-test npm test -- --coverage
+
+after_script:
+  - docker build -t azraeht/mutli-client -f /client/Dockerfile ./client
+  - docker build -t azraeht/mutli-nginx -f /nginx/Dockerfile ./nginx
+  - docker build -t azraeht/mutli-server -f /server/Dockerfile ./server
+  - docker build -t azraeht/mutli-worker -f /worker/Dockerfile ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_I" --password-stdin
+  # Take thos images and push them to docker hub
+  - docker push azraeht/mutli-client
+  - docker push azraeht/mutli-nginx
+  - docker push azraeht/mutli-server
+  - docker push azraeht/mutli-worker
