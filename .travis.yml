@@ -20,3 +20,17 @@ after_script:
   - docker push azraeht/mutli-nginx
   - docker push azraeht/mutli-server
   - docker push azraeht/mutli-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-west-3"
+  app: "mutli-docker"
+  env: "MultiDocker-env"
+  bucket_name: "elasticbeanstalk-eu-west-3-559213335023"
+  bucket_path: "mutli-docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY
+
