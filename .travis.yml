@@ -9,10 +9,10 @@ script:
   - docker run azraeht/react-test npm test -- --coverage
 
 after_script:
-  - docker build -t azraeht/multi-client -f /client/Dockerfile ./client
-  - docker build -t azraeht/multi-nginx -f /nginx/Dockerfile ./nginx
-  - docker build -t azraeht/multi-server -f /server/Dockerfile ./server
-  - docker build -t azraeht/multi-worker -f /worker/Dockerfile ./worker
+  - docker build -t azraeht/multi-client -f ./client/Dockerfile ./client
+  - docker build -t azraeht/multi-nginx -f ./nginx/Dockerfile ./nginx
+  - docker build -t azraeht/multi-server -f ./server/Dockerfile ./server
+  - docker build -t azraeht/multi-worker -f ./worker/Dockerfile ./worker
   # Log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_I" --password-stdin
   # Take thos images and push them to docker hub
